@@ -64,7 +64,7 @@
                  const ididCard = data.idCard.toString();
 
                 // แสดงเลขบัตรแบบปิดบัง (เช่น *********1234)
-                 const maskedId = ididCard.replace(/^(\d{9})(\d{4})$/, "*********-$2");
+                 const maskedId = ididCard.replace(/^(\d{9})(\d{4})$/, "*********$2");
                  document.getElementById('idCard').textContent = "เลขบัตร : " + maskedId;
                }
 
