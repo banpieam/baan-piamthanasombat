@@ -58,11 +58,12 @@
                         document.getElementById('displayName').textContent = "ชื่อ: " + data.name;
                         document.getElementById('room').textContent = data.room;
                         document.getElementById('phone').textContent = "เบอร์โทร: " + data.phone;
+                        document.getElementById('idCard').textContent = "เลขบัตร (ปิดบัง): " + maskedId;
 
                         // ✅ แสดงเลขบัตรประชาชนแบบปิดบัง
-                    if (data.number) {
-                        const idNumber = data.number.toString();
-                        const maskedId = idNumber.replace(/^(\d{9})(\d{4})$/, "*********-$2");
+                    if (data.idCard) {
+                        const ididCard = data.idCard.toString();
+                        const maskedId = ididCard.replace(/^(\d{9})(\d{4})$/, "*********-$2");
                         document.getElementById('idCard').textContent = "เลขบัตร: " + maskedId;
                     }
 
@@ -150,3 +151,4 @@
     </script>
 </body>
 </html>
+
