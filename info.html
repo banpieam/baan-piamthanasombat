@@ -19,8 +19,8 @@
         <h2>ห้อง: <span id="room"></span></h2>
         <img id="profileImage" src="" alt="Profile Image" style="border-radius: 50%; width: 100px; height: 100px;">
         <p id="displayName"></p>
-        <p id="idCard"></p>
         <p id="phone"></p>
+        <p id="idCard"></p>
     </div>
 
     <!-- Section to display invoice information -->
@@ -53,19 +53,21 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Display profile info
-                        document.getElementById('profileImage').src = data.profileImageUrl;
-                        document.getElementById('displayName').textContent = "ชื่อ: " + data.name;
-                        document.getElementById('room').textContent = data.room;
-                        document.getElementById('phone').textContent = "เบอร์โทร: " + data.phone;
-                        document.getElementById('idCard').textContent = "เลขบัตร (ปิดบัง): " + maskedId;
+                 // แสดงข้อมูลโปรไฟล์
+                 document.getElementById('profileImage').src = data.profileImageUrl;
+                 document.getElementById('displayName').textContent = "ชื่อ: " + data.name;
+                 document.getElementById('room').textContent = data.room;
+                 document.getElementById('phone').textContent = "เบอร์โทร: " + data.phone;
 
-                        // ✅ แสดงเลขบัตรประชาชนแบบปิดบัง
-                    if (data.idCard) {
-                        const ididCard = data.idCard.toString();
-                        const maskedId = ididCard.replace(/^(\d{9})(\d{4})$/, "*********-$2");
-                        document.getElementById('idCard').textContent = "เลขบัตร: " + maskedId;
-                    }
+                // ✅ แสดงเลขบัตรประชาชน
+                  if (data.idCard) {
+                 const ididCard = data.idCard.toString();
+
+                // แสดงเลขบัตรแบบปิดบัง (เช่น *********-1234)
+                 const maskedId = ididCard.replace(/^(\d{9})(\d{4})$/, "*********-$2");
+                 document.getElementById('idCard').textContent = "เลขบัตร (ปิดบัง): " + maskedId;
+                 }
+            }
 
                     document.getElementById('profile').style.display = 'block';
 
@@ -151,4 +153,3 @@
     </script>
 </body>
 </html>
-
