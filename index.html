@@ -119,38 +119,29 @@
 
         initLiff();
 
-            // ฟังก์ชันดึงห้องที่ลงทะเบียนแล้ว
-            function fetchRegisteredRooms() {
-                fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
-                .then(response => response.json())
-                .then(registeredRooms => {
+             // ฟังก์ชันดึงห้องที่ลงทะเบียนแล้ว
+        function fetchRegisteredRooms() {
+            fetch(''https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
+            .then(response => response.json())
+            .then(registeredRooms => {
                 const roomSelect = document.getElementById('room');
-
-             // รีเซ็ต option ทั้งหมดให้กลับมาเลือกได้ก่อน
-             Array.from(roomSelect.options).forEach(option => {
-                 if (option.value !== "") { // เว้น "เลือกห้อง"
+                Array.from(roomSelect.options).forEach(option => {
                     option.disabled = false;
-                    option.style.color = "";
-                    option.textContent = option.value;
-                }
-             });
-
-            // ปิดเฉพาะห้องที่ถูกจองแล้ว
-            registeredRooms.forEach(room => {
-                const option = roomSelect.querySelector(`option[value="${room}"]`);
-                 if (option) {
-                     option.disabled = true;
-                     option.style.color = "gray";
-                     option.textContent = `${room} (ถูกจองแล้ว)`;
-                 }
+                });
+                registeredRooms.forEach(room => {
+                    const option = roomSelect.querySelector(`option[value="${room}"]`);
+                    if (option) {
+                        option.disabled = true;
+                    }
+                });
+                Swal.close();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.close();
             });
-            Swal.close();
-        })
-         .catch(error => {
-             console.error('Error:', error);
-             Swal.close();
-        });
-    }
+        }
+
         document.getElementById('tenantForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -158,7 +149,7 @@
             const formObj = {};
             formData.forEach((value, key) => formObj[key] = value);
 
-            fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=registerTenant', {
+            fetch('YOUR_API_URL?action=registerTenant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
