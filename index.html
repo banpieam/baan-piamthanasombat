@@ -73,14 +73,12 @@
               console.log("Registered rooms to disable:", rooms);
         
               rooms.forEach(roomId => {
-                const option = document.querySelector(`#room option[value="${roomId}"]`);
-                if (option) {
-                  option.disabled = true;
-                  option.textContent = option.textContent + " (ไม่ว่าง)";
-                } else {
-                  console.warn(`No matching option found for: ${roomId}`);
-                }
-              });
+                 const option = document.querySelector(`#room option[value="${roomId}"]`);
+                 if (option && option.value !== "") { // ✅ ข้าม "เลือกห้อง"
+                     option.disabled = true;
+                      option.textContent = option.textContent + " (ไม่ว่าง)";
+             }
+           });
             })
             .catch(err => console.error("Fetch error:", err));
         });
@@ -151,38 +149,40 @@
 
     // ✅ ฟังก์ชัน disable ห้องที่ถูกลงทะเบียนแล้ว
     function fetchRegisteredRooms() {
-      fetch('https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getRegisteredRooms')
-        .then(res => res.json())
-        .then(registeredRooms => {
-          const roomSelect = document.getElementById('room');
+  fetch('https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getRegisteredRooms')
+    .then(res => res.json())
+    .then(registeredRooms => {
+      const roomSelect = document.getElementById('room');
 
-          // รีเซ็ตค่า option
-          Array.from(roomSelect.options).forEach(option => {
-            option.disabled = false;
-            option.style.color = "";
-            option.style.opacity = "1";
-            if (option.value && option.value.startsWith("Room")) {
-              option.textContent = option.value;
-            }
-          });
+      Array.from(roomSelect.options).forEach(option => {
+        if (option.value === "") return; // ✅ ข้าม "เลือกห้อง"
 
-          // disable ห้องที่ลงทะเบียนแล้ว
-          registeredRooms.forEach(room => {
-            const option = roomSelect.querySelector(`option[value="${room}"]`);
-            if (option) {
-              option.disabled = true;
-              option.style.color = "gray";
-              option.style.opacity = "0.5";
-              option.textContent = `${room} (ถูกลงทะเบียนแล้ว)`;
-            }
-          });
-          Swal.close();
-        })
-        .catch(err => {
-          console.error('Error:', err);
-          Swal.close();
-        });
-    }
+        if (registeredRooms.includes(option.value)) {
+          // ห้องที่ถูกลงทะเบียนแล้ว
+          option.disabled = true;
+          option.style.color = "gray";
+          option.style.opacity = "0.5";
+
+          // ต่อท้าย "(ไม่ว่าง)" แค่ครั้งเดียว
+          if (!option.textContent.includes("(ไม่ว่าง)")) {
+            option.textContent = `${option.value} (ไม่ว่าง)`;
+          }
+        } else {
+          // ห้องที่ยังว่าง
+          option.disabled = false;
+          option.style.color = "";
+          option.style.opacity = "1";
+          option.textContent = option.value; // ✅ กลับไปเป็นชื่อห้องปกติ
+        }
+      });
+
+      Swal.close();
+    })
+    .catch(err => {
+      console.error('Error:', err);
+      Swal.close();
+    });
+}
 
     // ✅ จัดการ submit ฟอร์ม
     document.getElementById('tenantForm').addEventListener('submit', function (event) {
