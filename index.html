@@ -1,197 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ลงทะเบียนผู้เช่า</title>
-    <script src=" https://static.line-scdn.net/liff/edge/versions/2.25.1/sdk.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ลงทะเบียนผู้เช่า</title>
+  <script src="https://static.line-scdn.net/liff/edge/versions/2.25.1/sdk.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
-    <header>
-        <!-- ใส่ URL ของโลโก้ของคุณ -->
-        <img src="https://i.postimg.cc/Y9gWTt2V/image.jpg" alt="Logo" class="logo">
-    </header>
+  <header>
+    <img src="https://i.postimg.cc/Y9gWTt2V/image.jpg" alt="Logo" class="logo">
+  </header>
 
-    <div class="container">
-        <h1>ลงทะเบียนผู้เช่า</h1>
+  <div class="container">
+    <h1>ลงทะเบียนผู้เช่า</h1>
 
-        <!-- แสดงข้อมูลโปรไฟล์ -->
-        <div id="profile" style="display: none; text-align: center;">
-            <img id="profileImage" src="" alt="Profile Image" style="border-radius: 50%; width: 100px; height: 100px;">
-            <p id="displayName"></p>
-        </div>
-
-        <form id="tenantForm">
-            <label for="room">ห้อง:</label>
-            <select id="room" name="room" required>
-                <option value="">เลือกห้อง</option>
-                <option value="Room101">Room101</option>
-                <option value="Room102">Room102</option>
-                <option value="Room201">Room201</option>
-                <option value="Room202">Room202</option>
-                <option value="Room203">Room203</option>
-                <option value="Room204">Room204</option>
-                <option value="Room205">Room205</option>
-                <option value="Room206">Room206</option>
-                <option value="Room301">Room301</option>
-                <option value="Room302">Room302</option>
-                <option value="Room303">Room303</option>
-                <option value="Room304">Room304</option>
-                <option value="Room305">Room305</option>
-                <option value="Room306">Room306</option>
-                <option value="Room307">Room307</option>
-                <option value="Room308">Room308</option>
-                <option value="Room401">Room401</option>
-                <option value="Room402">Room402</option>
-                <option value="Room403">Room403</option>
-                <option value="Room404">Room404</option>
-                <option value="Room405">Room405</option>
-                <option value="Room406">Room406</option>
-                <option value="Room407">Room407</option>
-                <option value="Room408">Room408</option>
-            </select>
-
-            <label for="name">ชื่อ-สกุล:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="number">เลขบัตรประชาชน:</label>
-            <input type="text" id="idCard" name="idCard" pattern="\d{13}" maxlength="13" required>
-
-            <label for="phone">เบอร์โทร:</label>
-            <input type="tel" id="phone" name="phone" required>
-
-            <input type="hidden" id="userId" name="userId">
-            <input type="hidden" id="profileImageUrl" name="profileImageUrl">
-
-            <button type="submit">ลงทะเบียน</button>
-        </form>
+    <!-- โปรไฟล์ LINE -->
+    <div id="profile" style="display: none; text-align: center;">
+      <img id="profileImage" src="" alt="Profile Image" style="border-radius: 50%; width: 100px; height: 100px;">
+      <p id="displayName"></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        async function initLiff() {
-            // ใส่ LIFF ID ของคุณ
-            const liffId = "2007964500-AZz0PrPo";
+    <form id="tenantForm">
+      <label for="room">ห้อง:</label>
+      <select id="room" name="room" required>
+        <option value="">เลือกห้อง</option>
+        <option value="Room101">Room101</option>
+        <option value="Room102">Room102</option>
+        <option value="Room201">Room201</option>
+        <option value="Room202">Room202</option>
+        <option value="Room203">Room203</option>
+        <option value="Room204">Room204</option>
+        <option value="Room205">Room205</option>
+        <option value="Room206">Room206</option>
+        <option value="Room301">Room301</option>
+        <option value="Room302">Room302</option>
+        <option value="Room303">Room303</option>
+        <option value="Room304">Room304</option>
+        <option value="Room305">Room305</option>
+        <option value="Room306">Room306</option>
+        <option value="Room307">Room307</option>
+        <option value="Room308">Room308</option>
+        <option value="Room401">Room401</option>
+        <option value="Room402">Room402</option>
+        <option value="Room403">Room403</option>
+        <option value="Room404">Room404</option>
+        <option value="Room405">Room405</option>
+        <option value="Room406">Room406</option>
+        <option value="Room407">Room407</option>
+        <option value="Room408">Room408</option>
+      </select>
 
-            // Show loading SweetAlert
-            Swal.fire({
-                title: 'กำลังโหลด...',
-                text: 'กรุณารอสักครู่',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+      <label for="name">ชื่อ-สกุล:</label>
+      <input type="text" id="name" name="name" required>
 
-            await liff.init({ liffId: liffId });
-            if (liff.isLoggedIn()) {
-                const profile = await liff.getProfile();
-                const userId = profile.userId;
-                document.getElementById('userId').value = userId;
-                document.getElementById('profileImage').src = profile.pictureUrl;
-                document.getElementById('displayName').textContent = profile.displayName;
-                document.getElementById('profileImageUrl').value = profile.pictureUrl;
-                document.getElementById('profile').style.display = 'block';
+      <label for="idCard">เลขบัตรประชาชน:</label>
+      <input type="text" id="idCard" name="idCard" pattern="\d{13}" maxlength="13" required>
 
-                // ตรวจสอบว่าผู้ใช้ลงทะเบียนหรือยัง
-                fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getTenantInfo&userId=' + userId)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // ผู้ใช้ลงทะเบียนแล้ว ให้เปลี่ยนไปหน้า info.html
-                        window.location.href = 'info.html';
-                    } else {
-                        Swal.close();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.close();
-                });
+      <label for="phone">เบอร์โทร:</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <input type="hidden" id="userId" name="userId">
+      <input type="hidden" id="profileImageUrl" name="profileImageUrl">
+
+      <button type="submit">ลงทะเบียน</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    async function initLiff() {
+      const liffId = "2007964500-AZz0PrPo"; // ✅ ใส่ LIFF ID ของคุณ
+
+      Swal.fire({
+        title: 'กำลังโหลด...',
+        text: 'กรุณารอสักครู่',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      await liff.init({ liffId });
+      if (liff.isLoggedIn()) {
+        const profile = await liff.getProfile();
+        const userId = profile.userId;
+
+        // set ค่าโปรไฟล์ลงฟอร์ม
+        document.getElementById('userId').value = userId;
+        document.getElementById('profileImage').src = profile.pictureUrl;
+        document.getElementById('displayName').textContent = profile.displayName;
+        document.getElementById('profileImageUrl').value = profile.pictureUrl;
+        document.getElementById('profile').style.display = 'block';
+
+        // ตรวจสอบว่าผู้ใช้ลงทะเบียนแล้วหรือยัง
+        fetch(`https://script.google.com/macros/s/AKfycbw440f6HZuIM-VaCuFG5laNK6C7Daieu0MObKEbb5-Px4m_3P9dmDetWJq-SN4aXxn5cQ/exec?action=getTenantInfo&userId=${userId}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              // ลงทะเบียนแล้ว → ไป info.html
+              window.location.href = 'info.html';
             } else {
-                liff.login();
-                Swal.close();
+              // ยังไม่ลงทะเบียน → โหลดรายการห้อง
+              Swal.close();
+              fetchRegisteredRooms();
             }
-        }
-
-        initLiff();
-
-           function fetchRegisteredRooms() {
-        fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
-       .then(response => response.json())
-       .then(registeredRooms => {
-           const roomSelect = document.getElementById('room');
-          // รีเซ็ตค่าก่อน
-           Array.from(roomSelect.options).forEach(option => {
-               option.disabled = false;
-               option.style.color = "";     
-               option.style.opacity = "1";  // คืนค่าโปร่งปกติ
-               option.textContent = option.value || "เลือกห้อง"; 
-           });
-
-           registeredRooms.forEach(room => {
-               const option = roomSelect.querySelector(`option[value="${room}"]`);
-               if (option) {
-                  option.disabled = true;                  // กดไม่ได้
-                  option.style.color = "gray";             // ตัวหนังสือสีเทา
-                  option.style.opacity = "0.5";            // ทำให้โปร่ง
-                   option.textContent = `${room} (ถูกลงทะเบียนแล้ว)`; 
-               }
-           });
-           Swal.close();
-       })
-        .catch(error => {
-          console.error('Error:', error);
-           Swal.close();
-       });
+          })
+          .catch(err => {
+            console.error('Error:', err);
+            Swal.close();
+          });
+      } else {
+        liff.login();
+        Swal.close();
+      }
     }
 
-        document.getElementById('tenantForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+    // ✅ ฟังก์ชัน disable ห้องที่ถูกลงทะเบียนแล้ว
+    function fetchRegisteredRooms() {
+      fetch('https://script.google.com/macros/s/AKfycbw440f6HZuIM-VaCuFG5laNK6C7Daieu0MObKEbb5-Px4m_3P9dmDetWJq-SN4aXxn5cQ/exec?action=getRegisteredRooms')
+        .then(res => res.json())
+        .then(registeredRooms => {
+          const roomSelect = document.getElementById('room');
 
-            const formData = new FormData(this);
-            const formObj = {};
-            formData.forEach((value, key) => formObj[key] = value);
+          // รีเซ็ตค่า option
+          Array.from(roomSelect.options).forEach(option => {
+            option.disabled = false;
+            option.style.color = "";
+            option.style.opacity = "1";
+            if (option.value && option.value.startsWith("Room")) {
+              option.textContent = option.value;
+            }
+          });
 
-            fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=registerTenant', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams(formObj)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        title: 'สำเร็จ!',
-                        text: 'ลงทะเบียนสำเร็จ!',
-                        icon: 'success',
-                        confirmButtonText: 'ตกลง'
-                    }).then(() => {
-                        document.getElementById('tenantForm').reset();
-                        fetchRegisteredRooms();
-                        window.location.href = 'info.html';
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'ผิดพลาด!',
-                        text: 'ห้องนี้มีการลงทะเบียนแล้ว',
-                        icon: 'error',
-                        confirmButtonText: 'ตกลง'
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+          // disable ห้องที่ลงทะเบียนแล้ว
+          registeredRooms.forEach(room => {
+            const option = roomSelect.querySelector(`option[value="${room}"]`);
+            if (option) {
+              option.disabled = true;
+              option.style.color = "gray";
+              option.style.opacity = "0.5";
+              option.textContent = `${room} (ถูกลงทะเบียนแล้ว)`;
+            }
+          });
+          Swal.close();
+        })
+        .catch(err => {
+          console.error('Error:', err);
+          Swal.close();
         });
+    }
 
-        // ดึงห้องที่ลงทะเบียนแล้วเมื่อโหลดเพจ
-        fetchRegisteredRooms();
-    </script>
+    // ✅ จัดการ submit ฟอร์ม
+    document.getElementById('tenantForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+      const formObj = {};
+      formData.forEach((value, key) => formObj[key] = value);
+
+      fetch('https://script.google.com/macros/s/AKfycbw440f6HZuIM-VaCuFG5laNK6C7Daieu0MObKEbb5-Px4m_3P9dmDetWJq-SN4aXxn5cQ/exec?action=registerTenant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formObj)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire({
+              title: 'สำเร็จ!',
+              text: 'ลงทะเบียนสำเร็จ!',
+              icon: 'success',
+              confirmButtonText: 'ตกลง'
+            }).then(() => {
+              document.getElementById('tenantForm').reset();
+              fetchRegisteredRooms();
+              window.location.href = 'info.html';
+            });
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!',
+              text: 'ห้องนี้มีการลงทะเบียนแล้ว',
+              icon: 'error',
+              confirmButtonText: 'ตกลง'
+            });
+          }
+        })
+        .catch(err => {
+          console.error('Error:', err);
+        });
+    });
+
+    // ✅ เริ่มต้น LIFF
+    initLiff();
+  </script>
 </body>
 </html>
