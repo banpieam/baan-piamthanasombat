@@ -121,35 +121,36 @@
 
             // ฟังก์ชันดึงห้องที่ลงทะเบียนแล้ว
             function fetchRegisteredRooms() {
-                 fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
-                 .then(response => response.json())
-                 .then(registeredRooms => {
-                    const roomSelect = document.getElementById('room');
+                fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
+                .then(response => response.json())
+                .then(registeredRooms => {
+                const roomSelect = document.getElementById('room');
 
-             // รีเซ็ต: เปิด option ทั้งหมดก่อน
-            Array.from(roomSelect.options).forEach(option => {
-                option.disabled = false;
-                option.style.color = ""; // reset สี
-            });
-
-            // ปิดเฉพาะห้องที่ถูกลงทะเบียนแล้ว
-            registeredRooms.forEach(room => {
-                const option = roomSelect.querySelector(`option[value="${room}"]`);
-                if (option) {
-                    option.disabled = true;           // ปิดการเลือก
-                    option.style.color = "gray";      // ทำให้เห็นชัดว่าเลือกไม่ได้
-                    option.textContent = `${room} (ถูกจองแล้ว)`; // เพิ่มข้อความบอก
+             // รีเซ็ต option ทั้งหมดให้กลับมาเลือกได้ก่อน
+             Array.from(roomSelect.options).forEach(option => {
+                 if (option.value !== "") { // เว้น "เลือกห้อง"
+                    option.disabled = false;
+                    option.style.color = "";
+                    option.textContent = option.value;
                 }
              });
+
+            // ปิดเฉพาะห้องที่ถูกจองแล้ว
+            registeredRooms.forEach(room => {
+                const option = roomSelect.querySelector(`option[value="${room}"]`);
+                 if (option) {
+                     option.disabled = true;
+                     option.style.color = "gray";
+                     option.textContent = `${room} (ถูกจองแล้ว)`;
+                 }
+            });
             Swal.close();
         })
-            .catch(error => {
-            console.error('Error:', error);
-            Swal.close();
-         });
+         .catch(error => {
+             console.error('Error:', error);
+             Swal.close();
+        });
     }
-
-
         document.getElementById('tenantForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
