@@ -122,16 +122,16 @@
                         }
 
                         card.innerHTML = `
-                            <h4>ประจำเดือนที่: ${invoice.billingMonth}</h4>
-                            <p>ค่าเช่า: ${invoice.rent}</p>
-                            <p>ค่าไฟ: ${invoice.electricityCost}</p>
-                            <p>ค่าน้ำ: ${invoice.waterCost}</p>
-                            <p>ค่าส่วนกลาง: ${invoice.commonAreaFee}</p>
-                            <p>ค่าอินเทอร์เน็ต: ${invoice.internetFee}</p>
-                            <p>อื่นๆ: ${invoice.otherCosts}</p>
-                            <p>ยอดรวม: ${invoice.totalAmount}</p>
-                            <p>${statusText}</p>
-                        `;
+    <h4>ประจำเดือนที่: ${invoice.billingMonth}</h4>
+    <p>ค่าเช่า: ${Number(invoice.rent).toLocaleString()} บาท</p>
+    <p>ค่าไฟ: ${Number(invoice.electricityCost).toLocaleString()} บาท</p>
+    <p>ค่าน้ำ: ${Number(invoice.waterCost).toLocaleString()} บาท</p>
+    <p>ค่าส่วนกลาง: ${Number(invoice.commonAreaFee).toLocaleString()} บาท</p>
+    <p>ค่าอินเทอร์เน็ต: ${Number(invoice.internetFee).toLocaleString()} บาท</p>
+    <p>อื่นๆ: ${Number(invoice.otherCosts).toLocaleString()} บาท</p>
+    <p>ยอดรวม: ${Number(invoice.totalAmount).toLocaleString()} บาท</p>
+    <p>${statusText}</p>
+`;
 
                         cardsContainer.appendChild(card);
                     });
