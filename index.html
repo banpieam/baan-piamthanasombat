@@ -58,19 +58,31 @@
           fetch("https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getRegisteredRooms")
             .then(res => res.json())
             .then(data => {
-              if (data.success) {
-                const registered = data.rooms; // ["101","102",...]
+              console.log("API Response:", data);
         
-                registered.forEach(room => {
-                  const option = document.querySelector(`#roomSelect option[value="${room}"]`);
-                  if (option) {
-                    option.disabled = true; 
-                    option.textContent = option.textContent + " (ไม่ว่าง)";
-                  }
-                });
+              let rooms = [];
+              if (data.success && Array.isArray(data.rooms)) {
+                rooms = data.rooms;
+              } else if (Array.isArray(data)) {
+                rooms = data;
+              } else {
+                console.warn("Unexpected format for registered rooms:", data);
+                return;
               }
+        
+              console.log("Registered rooms to disable:", rooms);
+        
+              rooms.forEach(roomId => {
+                const option = document.querySelector(`#room option[value="${roomId}"]`);
+                if (option) {
+                  option.disabled = true;
+                  option.textContent = option.textContent + " (ไม่ว่าง)";
+                } else {
+                  console.warn(`No matching option found for: ${roomId}`);
+                }
+              });
             })
-            .catch(err => console.error("Error:", err));
+            .catch(err => console.error("Fetch error:", err));
         });
         </script>
 
