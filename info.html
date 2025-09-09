@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ข้อมูลผู้เช่า</title>
-    <script src=" https://static.line-scdn.net/liff/edge/versions/2.25.1/sdk.js"></script>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.25.1/sdk.js"></script>
     <link rel="stylesheet" href="info.css">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -59,14 +59,12 @@
                  document.getElementById('room').textContent = data.room;
                  document.getElementById('phone').textContent = "เบอร์โทร: " + data.phone;
 
-                // ✅ แสดงเลขบัตรประชาชน
-                  if (data.idCard) {
-                 const ididCard = data.idCard.toString();
-
-                // แสดงเลขบัตรแบบปิดบัง (เช่น *********1234)
-                 const maskedId = ididCard.replace(/^(\d{9})(\d{4})$/, "*********$2");
-                 document.getElementById('idCard').textContent = "เลขบัตร : " + maskedId;
-               }
+                // ✅ แสดงเลขบัตรประชาชน (ตรวจสอบว่าเป็นตัวเลข 13 หลักก่อน)
+                if (data.idCard && /^\d{13}$/.test(data.idCard)) {
+                    const idCard = data.idCard.toString();
+                    const maskedId = idCard.replace(/^(\d{9})(\d{4})$/, "*********$2");
+                    document.getElementById('idCard').textContent = "เลขบัตร : " + maskedId;
+              }
 
                     document.getElementById('profile').style.display = 'block';
 
@@ -87,7 +85,6 @@
                 });
             } else {
                 liff.login();
-                Swal.close();
             }
         }
 

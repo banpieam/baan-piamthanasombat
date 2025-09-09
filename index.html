@@ -119,31 +119,35 @@
 
         initLiff();
 
-             // ฟังก์ชันดึงห้องที่ลงทะเบียนแล้ว
-        function fetchRegisteredRooms() {
-            fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
-            .then(response => response.json())
-            .then(registeredRooms => {
-                const roomSelect = document.getElementById('room');
-                Array.from(roomSelect.options).forEach(option => {
-                    option.disabled = false;
-                });
-                registeredRooms.forEach(room => {
-                     const option = roomSelect.querySelector(`option[value="${room}"]`);
-                     if (option) {
-                        option.disabled = true;                           // ปิดไม่ให้เลือก
-                        option.style.color = "gray";                      // ทำเป็นสีเทา
-                        option.textContent = `${room} (ถูกจองแล้ว)`;     // เพิ่มข้อความกำกับ
-                     }
-                });
+           function fetchRegisteredRooms() {
+        fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
+       .then(response => response.json())
+       .then(registeredRooms => {
+           const roomSelect = document.getElementById('room');
+          // รีเซ็ตค่าก่อน
+           Array.from(roomSelect.options).forEach(option => {
+               option.disabled = false;
+               option.style.color = "";     
+               option.style.opacity = "1";  // คืนค่าโปร่งปกติ
+               option.textContent = option.value || "เลือกห้อง"; 
+           });
 
-                Swal.close();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.close();
-            });
-        }
+           registeredRooms.forEach(room => {
+               const option = roomSelect.querySelector(`option[value="${room}"]`);
+               if (option) {
+                  option.disabled = true;                  // กดไม่ได้
+                  option.style.color = "gray";             // ตัวหนังสือสีเทา
+                  option.style.opacity = "0.5";            // ทำให้โปร่ง
+                   option.textContent = `${room} (ถูกลงทะเบียนแล้ว)`; 
+               }
+           });
+           Swal.close();
+       })
+        .catch(error => {
+          console.error('Error:', error);
+           Swal.close();
+       });
+    }
 
         document.getElementById('tenantForm').addEventListener('submit', function(event) {
             event.preventDefault();
