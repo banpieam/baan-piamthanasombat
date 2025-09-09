@@ -92,12 +92,13 @@
                 Swal.close();
             });
         }
-         // ฟังก์ชันช่วยฟอร์แมตตัวเลข
-    function formatNumber(value) {
-        const num = parseFloat(value.toString().replace(/,/g, '').trim());
-        if (isNaN(num)) return value;
-        return num.toLocaleString('en-US'); // ใส่ comma
-    }
+        
+        function formatNumber(value) {
+    if (value === null || value === undefined || value === '') return '-';
+    const num = parseFloat(value.toString().replace(/,/g, '').trim());
+    if (isNaN(num)) return value;
+    return num.toLocaleString('en-US'); // ใส่ comma
+}
         function fetchInvoiceData(userId) {
             fetch('https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec?action=getInvoiceData&userId=' + userId)
             .then(response => response.json())
@@ -126,7 +127,7 @@
                             statusText = `สถานะ: ${invoice.status}`;
                         }
 
-                        card.innerHTML = `
+                      card.innerHTML = `
     <h4>ประจำเดือนที่: ${invoice.billingMonth}</h4>
     <p>ค่าเช่า: ${Number(invoice.rent).toLocaleString()} บาท</p>
     <p>ค่าไฟ: ${Number(invoice.electricityCost).toLocaleString()} บาท</p>
