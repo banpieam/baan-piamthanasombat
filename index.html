@@ -121,7 +121,7 @@
 
              // ฟังก์ชันดึงห้องที่ลงทะเบียนแล้ว
         function fetchRegisteredRooms() {
-            fetch(''https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
+            fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=getRegisteredRooms')
             .then(response => response.json())
             .then(registeredRooms => {
                 const roomSelect = document.getElementById('room');
@@ -129,11 +129,14 @@
                     option.disabled = false;
                 });
                 registeredRooms.forEach(room => {
-                    const option = roomSelect.querySelector(`option[value="${room}"]`);
-                    if (option) {
-                        option.disabled = true;
-                    }
+                     const option = roomSelect.querySelector(`option[value="${room}"]`);
+                     if (option) {
+                        option.disabled = true;                           // ปิดไม่ให้เลือก
+                        option.style.color = "gray";                      // ทำเป็นสีเทา
+                        option.textContent = `${room} (ถูกจองแล้ว)`;     // เพิ่มข้อความกำกับ
+                     }
                 });
+
                 Swal.close();
             })
             .catch(error => {
@@ -149,7 +152,7 @@
             const formObj = {};
             formData.forEach((value, key) => formObj[key] = value);
 
-            fetch('YOUR_API_URL?action=registerTenant', {
+            fetch('https://script.google.com/macros/s/AKfycbyAZvwzTXoGOTpIuVHspl87LtbT8wPHNFn9ePDLnhWuZn0oPmMexMhtivLbvSZYTZtoiw/exec?action=registerTenant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
