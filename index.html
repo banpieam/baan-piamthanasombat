@@ -116,7 +116,25 @@
       if (liff.isLoggedIn()) {
         const profile = await liff.getProfile();
         const userId = profile.userId;
-
+        // ✅ เรียก API ตรวจสอบว่าผู้ใช้เคยลงทะเบียนหรือยัง
+const scriptUrl = "https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec";
+fetch(`${scriptUrl}?action=getTenantInfo&userId=${userId}`)
+  .then(res => res.json())
+  .then(data => {
+    if (data.success && data.room) {
+      // ✅ เคยลงทะเบียนแล้ว → เด้งไป info.html
+      window.location.href = "info.html";
+    } else {
+      // ❌ ยังไม่เคยลงทะเบียน → แสดงฟอร์มเลือกห้อง
+      Swal.close();
+      document.getElementById("registerForm").style.display = "block";
+      fetchRegisteredRooms(); // ฟังก์ชันนี้ไว้โหลดห้องที่ยังว่าง
+    }
+  })
+  .catch(err => {
+    console.error("Error getTenantInfo:", err);
+    Swal.close();
+  });
         // set ค่าโปรไฟล์ลงฟอร์ม
         document.getElementById('userId').value = userId;
         document.getElementById('profileImage').src = profile.pictureUrl;
