@@ -125,7 +125,7 @@
         document.getElementById('profile').style.display = 'block';
 
         // ตรวจสอบว่าผู้ใช้ลงทะเบียนแล้วหรือยัง
-        fetch(`https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getTenantInfo&userId=${userId}`)
+        fetch(`https://script.google.com/macros/s/AKfycbzI11Y9guQSYc3yLLwADCTASP1PBoIvRuOZUmoKE_ke/dev?action=getTenantInfo&userId=${userId}`)
           .then(res => res.json())
           .then(data => {
             if (data.success) {
@@ -149,7 +149,7 @@
 
     // ✅ ฟังก์ชัน disable ห้องที่ถูกลงทะเบียนแล้ว
     function fetchRegisteredRooms() {
-  fetch('https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getRegisteredRooms')
+  fetch('https://script.google.com/macros/s/AKfycbzI11Y9guQSYc3yLLwADCTASP1PBoIvRuOZUmoKE_ke/dev?action=getRegisteredRooms')
     .then(res => res.json())
     .then(registeredRooms => {
       const roomSelect = document.getElementById('room');
@@ -192,7 +192,7 @@
       const formObj = {};
       formData.forEach((value, key) => formObj[key] = value);
 
-      fetch('https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=registerTenant', {
+      fetch('https://script.google.com/macros/s/AKfycbzI11Y9guQSYc3yLLwADCTASP1PBoIvRuOZUmoKE_ke/dev?action=registerTenant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formObj)
