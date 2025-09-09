@@ -186,46 +186,35 @@
 
     // ✅ จัดการ submit ฟอร์ม
     document.getElementById('tenantForm').addEventListener('submit', function (event) {
-      event.preventDefault();
+  event.preventDefault();
 
-      const formData = new FormData(this);
-      const formObj = {};
-      formData.forEach((value, key) => formObj[key] = value);
-
-      fetch('https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec?action=registerTenant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formObj)
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            Swal.fire({
-              title: 'สำเร็จ!',
-              text: 'ลงทะเบียนสำเร็จ!',
-              icon: 'success',
-              confirmButtonText: 'ตกลง'
-            }).then(() => {
-              document.getElementById('tenantForm').reset();
-              fetchRegisteredRooms();
-              window.location.href = 'info.html';
-            });
-          } else {
-            Swal.fire({
-              title: 'ผิดพลาด!',
-              text: 'ห้องนี้มีการลงทะเบียนแล้ว',
-              icon: 'error',
-              confirmButtonText: 'ตกลง'
-            });
-          }
-        })
-        .catch(err => {
-          console.error('Error:', err);
+  fetch('https://script.google.com/macros/s/.../exec?action=registerTenant', {
+    method: 'POST',
+    body: new FormData(document.getElementById('tenantForm'))
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        Swal.fire({
+          title: 'สำเร็จ!',
+          text: 'ลงทะเบียนสำเร็จ!',
+          icon: 'success',
+          confirmButtonText: 'ตกลง'
+        }).then(() => {
+          document.getElementById('tenantForm').reset();
+          fetchRegisteredRooms();
+          window.location.href = 'info.html';
         });
+      } else {
+        Swal.fire({
+          title: 'ผิดพลาด!',
+          text: 'ห้องนี้มีการลงทะเบียนแล้ว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง'
+        });
+      }
+    })
+    .catch(err => {
+      console.error('Error:', err);
     });
-
-    // ✅ เริ่มต้น LIFF
-    initLiff();
-  </script>
-</body>
-</html>
+}); // 👈 ต้องมีอันนี้ปิด function
