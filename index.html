@@ -55,7 +55,7 @@
 
       <script>
         document.addEventListener("DOMContentLoaded", function () {
-          fetch("https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec?action=getRegisteredRooms")
+          fetch("https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getRegisteredRooms")
             .then(res => res.json())
             .then(data => {
               console.log("API Response:", data);
@@ -125,7 +125,7 @@
         document.getElementById('profile').style.display = 'block';
 
         // ตรวจสอบว่าผู้ใช้ลงทะเบียนแล้วหรือยัง
-        fetch(`https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec?action=getTenantInfo&userId=${userId}`)
+        fetch(`https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getTenantInfo&userId=${userId}`)
           .then(res => res.json())
           .then(data => {
             if (data.success) {
@@ -149,7 +149,7 @@
 
     // ✅ ฟังก์ชัน disable ห้องที่ถูกลงทะเบียนแล้ว
     function fetchRegisteredRooms() {
-  fetch('https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec?action=getRegisteredRooms')
+  fetch('https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getRegisteredRooms')
     .then(res => res.json())
     .then(registeredRooms => {
       const roomSelect = document.getElementById('room');
@@ -186,35 +186,46 @@
 
     // ✅ จัดการ submit ฟอร์ม
     document.getElementById('tenantForm').addEventListener('submit', function (event) {
-  event.preventDefault();
+      event.preventDefault();
 
-  fetch('https://script.google.com/macros/s/.../exec?action=registerTenant', {
-    method: 'POST',
-    body: new FormData(document.getElementById('tenantForm'))
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        Swal.fire({
-          title: 'สำเร็จ!',
-          text: 'ลงทะเบียนสำเร็จ!',
-          icon: 'success',
-          confirmButtonText: 'ตกลง'
-        }).then(() => {
-          document.getElementById('tenantForm').reset();
-          fetchRegisteredRooms();
-          window.location.href = 'info.html';
+      const formData = new FormData(this);
+      const formObj = {};
+      formData.forEach((value, key) => formObj[key] = value);
+
+      fetch('https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=registerTenant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formObj)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire({
+              title: 'สำเร็จ!',
+              text: 'ลงทะเบียนสำเร็จ!',
+              icon: 'success',
+              confirmButtonText: 'ตกลง'
+            }).then(() => {
+              document.getElementById('tenantForm').reset();
+              fetchRegisteredRooms();
+              window.location.href = 'info.html';
+            });
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!',
+              text: 'ห้องนี้มีการลงทะเบียนแล้ว',
+              icon: 'error',
+              confirmButtonText: 'ตกลง'
+            });
+          }
+        })
+        .catch(err => {
+          console.error('Error:', err);
         });
-      } else {
-        Swal.fire({
-          title: 'ผิดพลาด!',
-          text: 'ห้องนี้มีการลงทะเบียนแล้ว',
-          icon: 'error',
-          confirmButtonText: 'ตกลง'
-        });
-      }
-    })
-    .catch(err => {
-      console.error('Error:', err);
     });
-}); // 👈 ต้องมีอันนี้ปิด function
+
+    // ✅ เริ่มต้น LIFF
+    initLiff();
+  </script>
+</body>
+</html>
