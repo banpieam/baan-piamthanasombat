@@ -54,7 +54,7 @@
                 const userId = profile.userId;
 
                 // ✅ ดึงข้อมูลผู้เช่า
-                fetch('https://script.google.com/macros/s/AKfycbzI11Y9guQSYc3yLLwADCTASP1PBoIvRuOZUmoKE_ke/dev?action=getTenantInfo&userId=' + userId)
+                fetch('https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec?action=getTenantInfo&userId=' + userId)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -94,7 +94,7 @@
         }
 
         function fetchInvoiceData(userId) {
-            fetch('https://script.google.com/macros/s/AKfycbzI11Y9guQSYc3yLLwADCTASP1PBoIvRuOZUmoKE_ke/dev?action=getInvoiceData&userId=' + userId)
+            fetch('https://script.google.com/macros/s/AKfycbwiorOJLhxf1RKBwZQix8f11oV-84CAmjeOmHGySjcG8YrxlcqbqkVvDLt8l3FBAPeujQ/exec?action=getInvoiceData&userId=' + userId)
             .then(response => response.json())
             .then(invoiceData => {
                 if (invoiceData.success) {
