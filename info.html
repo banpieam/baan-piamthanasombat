@@ -88,9 +88,9 @@
             }
         }
 
-        // Fetch invoice data based on userId
-        function fetchInvoiceData(userId) {
-            fetch('https://script.google.com/macros/s/AKfycbyt1RFpuXuZHj3dfTC31dkKM35Q8o4lEi6aifki53gXrwWAdfCZSxIW7Wr5hKig15NI8g/exec?action=getInvoiceData&userId=' + userId) // Replace YOUR_SCRIPT_ID_HERE with your actual Script ID
+       // Fetch invoice data based on userId
+       function fetchInvoiceData(userId) {
+            fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec?action=getInvoiceData&userId=' + userId) // Replace YOUR_SCRIPT_ID_HERE with your actual Script ID
             .then(response => response.json())
             .then(invoiceData => {
                 if (invoiceData.success) {
